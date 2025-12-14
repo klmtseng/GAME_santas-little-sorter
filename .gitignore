@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# OS Generated
+.DS_Store
+Thumbs.db
+
+# Build artifacts (if you add a build step later)
+dist/
+build/
+
+# Environment
+.env
+.env.local

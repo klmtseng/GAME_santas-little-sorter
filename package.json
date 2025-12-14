@@ -1,0 +1,22 @@
+{
+  "name": "santas-little-sorter",
+  "version": "1.0.0",
+  "description": "Help Santa decide who makes the list! A festive swipe-based decision game.",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "react",
+    "game",
+    "christmas",
+    "santa",
+    "framer-motion",
+    "swipe"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "serve": "^14.2.0"
+  }
+}
