@@ -24,9 +24,5 @@ You are an elf who works for Santa Claus! Help decide who's Naughty or Nice in t
 - **Lucide React** (Icons)
 - **Tailwind CSS** (Styling)
 
-
-## 📸 Assets
-The project expects an `elf.png` file in the root directory to display the elf character.
-
 ---
 *Made with ❤️ for the holidays.*
