@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Snowflake, Volume2, VolumeX, Star, RefreshCw } from 'lucide-react';
+import { Snowflake, Volume2, VolumeX, Star, RefreshCw, Mail } from 'lucide-react';
 import { ElfStatue } from './components/ElfStatue';
 import { GameCard } from './components/GameCard';
 import { ScoreScreen } from './components/ScoreScreen';
@@ -32,6 +32,7 @@ export default function App() {
   const [highlightHand, setHighlightHand] = useState<'Nice' | 'Naughty' | 'Load' | 'Reject' | null>(null);
   const [isMuted, setIsMuted] = useState(false);
   const [showEffects, setShowEffects] = useState<'Nice' | 'Naughty' | null>(null);
+  const [showBriefing, setShowBriefing] = useState(false);
 
   // Audio Refs
   const bgmRef = useRef<HTMLAudioElement | null>(null);
@@ -117,6 +118,7 @@ export default function App() {
       currentRound: 0,
       history: []
     });
+    setShowBriefing(false);
     
     // Start BGM
     if (!isMuted && bgmRef.current) {
@@ -299,20 +301,20 @@ export default function App() {
         {/* Header & Controls */}
         <div className="absolute top-0 w-full flex justify-between items-start px-6 pt-6 pb-12 max-w-4xl z-50">
             <div className="flex items-center space-x-2 text-white/80 drop-shadow-md">
-                <Snowflake className="w-6 h-6 animate-spin-slow" />
-                <span className="font-bold tracking-widest text-sm uppercase hidden sm:block">North Pole {gameState.level === 1 ? 'HR' : 'Logistics'}</span>
+                <Snowflake className="w-10 h-10 animate-spin-slow" />
+                <span className="font-christmas font-bold tracking-wider text-2xl hidden sm:block">North Pole {gameState.level === 1 ? 'HR' : 'Logistics'}</span>
             </div>
             
             <div className="flex items-center space-x-4">
                  <button 
                     onClick={() => setIsMuted(!isMuted)}
-                    className="p-2 rounded-full bg-slate-800/50 backdrop-blur text-slate-300 hover:bg-slate-700 hover:text-white transition-colors border border-slate-600/50"
+                    className="p-3 rounded-full bg-slate-800/50 backdrop-blur text-slate-300 hover:bg-slate-700 hover:text-white transition-colors border border-slate-600/50"
                  >
-                    {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+                    {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
                  </button>
 
                  {gameState.status === 'playing' && (
-                     <div className="bg-slate-800/80 backdrop-blur px-4 py-2 rounded-full border border-slate-600/50 text-slate-200 font-mono text-sm shadow-lg">
+                     <div className="bg-slate-800/80 backdrop-blur px-6 py-2 rounded-full border border-slate-600/50 text-slate-200 font-christmas text-xl shadow-lg">
                         {gameState.level === 1 ? `Case ${gameState.currentRound + 1}/${TOTAL_ROUNDS}` : `Gift ${gameState.currentRound + 1}/${deck.length}`}
                      </div>
                  )}
@@ -329,39 +331,100 @@ export default function App() {
             {gameState.status === 'transition' && <SantaSleigh />}
         </AnimatePresence>
 
+        {/* BRIEFING MODAL (Step 2 of Intro) */}
+        <AnimatePresence>
+            {showBriefing && (
+                <motion.div 
+                   initial={{ opacity: 0 }} 
+                   animate={{ opacity: 1 }}
+                   exit={{ opacity: 0 }}
+                   className="absolute inset-0 z-50 flex items-center justify-center bg-slate-900/85 backdrop-blur-md p-4"
+                >
+                   <motion.div 
+                       initial={{ scale: 0.8, y: 20 }}
+                       animate={{ scale: 1, y: 0 }}
+                       className="bg-slate-800/90 border-2 border-yellow-500/50 p-8 rounded-2xl max-w-lg w-full text-center shadow-2xl relative overflow-hidden"
+                   >
+                       {/* Decorative Strip */}
+                       <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-500 via-green-500 to-red-500"></div>
+                       <div className="absolute top-6 right-6 text-yellow-500 opacity-50"><Mail className="w-12 h-12" /></div>
+                       
+                       <h2 className="text-5xl font-christmas text-yellow-400 mb-6 drop-shadow-md">Message from Jingles</h2>
+                       
+                       <div className="text-left space-y-4 mb-8">
+                           <p className="text-xl md:text-2xl text-slate-100 font-christmas leading-relaxed">
+                               Ho Ho Hello!
+                           </p>
+                           <p className="text-lg md:text-xl text-slate-300 font-sans leading-relaxed">
+                               I'm <strong>Jingles</strong>, the Head of List Management. Christmas is almost here and we are slightly... behind schedule.
+                           </p>
+                           <div className="bg-black/30 p-4 rounded-lg border border-slate-600/50">
+                               <p className="text-lg md:text-xl text-slate-200 font-sans">
+                                   <span className="text-yellow-400 font-bold">Step 1:</span> Sort the kids (Naughty vs Nice).<br/>
+                                   <span className="text-yellow-400 font-bold">Step 2:</span> Load the correct gifts onto the sleigh.
+                               </p>
+                           </div>
+                           <p className="text-base text-yellow-200/80 italic text-center pt-2">
+                               "Don't mess this up, or we're all getting coal!"
+                           </p>
+                       </div>
+
+                       <button 
+                           onClick={startGame}
+                           className="w-full group relative inline-flex items-center justify-center px-8 py-4 text-2xl font-bold text-white transition-all duration-200 bg-green-600 border-b-4 border-green-800 rounded-lg hover:bg-green-500 hover:scale-[1.02] active:scale-95 font-christmas"
+                       >
+                          <span>Let's Sort!</span>
+                          <Star className="ml-2 w-6 h-6 group-hover:spin-slow" />
+                       </button>
+                   </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+
         {/* Main Game Area */}
         <AnimatePresence mode="wait">
           
-          {/* INTRO SCREEN */}
+          {/* INTRO SCREEN (Step 1) */}
           {gameState.status === 'intro' && (
             <motion.div 
                 key="intro"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="text-center space-y-8 max-w-lg relative z-20"
+                className="text-center space-y-4 max-w-4xl relative z-20 flex flex-col items-center justify-center h-full pb-20"
             >
-                <div className="relative inline-block">
-                    <div className="absolute inset-0 bg-yellow-400 blur-3xl opacity-20 rounded-full animate-pulse"></div>
+                {/* Visuals */}
+                <div className="relative inline-block mb-2 transform scale-110 md:scale-125">
+                    <div className="absolute inset-0 bg-yellow-400 blur-[80px] opacity-20 rounded-full animate-pulse"></div>
                     <ElfStatue verdictHighlight={null} level={1} />
                 </div>
                 
-                <div className="space-y-4">
-                    <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight drop-shadow-xl font-serif">
-                        <span className="text-red-400 drop-shadow-md">Naughty</span> or <span className="text-green-400 drop-shadow-md">Nice</span>?
+                {/* Title */}
+                <div className="space-y-0 relative z-10">
+                    <h1 className="text-7xl md:text-[9rem] font-bold text-white tracking-tight drop-shadow-2xl font-christmas leading-[0.85] text-shadow-glow">
+                        <span className="text-red-500 block transform -rotate-2">Naughty</span>
+                        <span className="text-4xl md:text-6xl text-white opacity-90 block my-2 font-sans tracking-widest uppercase">or</span>
+                        <span className="text-green-500 block transform rotate-2">Nice?</span>
                     </h1>
-                    <p className="text-lg text-slate-200 leading-relaxed font-medium drop-shadow-md">
-                        Help the Elf sort the list before Christmas Eve!
-                    </p>
                 </div>
 
-                <button 
-                    onClick={startGame}
-                    className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-red-600 border-2 border-red-400/50 rounded-full focus:outline-none hover:bg-red-700 hover:scale-105 shadow-[0_0_30px_rgba(220,38,38,0.6)]"
-                >
-                   <span>Start Sorting</span>
-                   <Star className="ml-2 w-5 h-5 group-hover:rotate-180 transition-transform" />
-                </button>
+                {/* Main Action */}
+                {!showBriefing && (
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.5, type: "spring" }}
+                        className="pt-12"
+                    >
+                        <button 
+                            onClick={() => setShowBriefing(true)}
+                            className="group relative inline-flex items-center justify-center px-12 py-6 text-3xl font-bold text-white transition-all duration-200 bg-red-600 border-4 border-white/20 rounded-full focus:outline-none hover:bg-red-700 hover:scale-110 shadow-[0_0_50px_rgba(220,38,38,0.5)] font-christmas animate-pulse-slow"
+                        >
+                           <span>Enter Workshop</span>
+                           <span className="absolute -top-2 -right-2 bg-yellow-400 text-red-900 text-xs font-bold px-2 py-1 rounded-full border-2 border-white transform rotate-12">OPEN!</span>
+                        </button>
+                    </motion.div>
+                )}
             </motion.div>
           )}
 
@@ -370,7 +433,7 @@ export default function App() {
              <div className="flex flex-col items-center justify-center w-full h-full max-w-lg relative">
                  
                  {/* Timer Component */}
-                 <div className="absolute top-16 w-full px-8 z-30">
+                 <div className="absolute top-20 w-full px-8 z-30">
                     <Timer 
                         duration={gameState.level === 1 ? 10 : 5} // Faster timer for Level 2
                         isActive={!highlightHand} 
@@ -399,16 +462,16 @@ export default function App() {
                  </div>
 
                  {/* Controls Hint */}
-                 <div className="absolute bottom-10 flex justify-between w-full px-12 text-white font-bold opacity-70 pointer-events-none">
+                 <div className="absolute bottom-10 flex justify-between w-full px-12 text-white font-bold opacity-70 pointer-events-none font-christmas">
                      <div className="flex flex-col items-center animate-bounce-left">
-                         <span className="text-2xl drop-shadow">←</span>
-                         <span className="text-xs uppercase tracking-widest text-red-300 shadow-black drop-shadow-md">
+                         <span className="text-5xl drop-shadow">←</span>
+                         <span className="text-2xl uppercase tracking-widest text-red-300 shadow-black drop-shadow-md">
                             {gameState.level === 1 ? 'Naughty' : 'Reject'}
                          </span>
                      </div>
                      <div className="flex flex-col items-center animate-bounce-right">
-                         <span className="text-2xl drop-shadow">→</span>
-                         <span className="text-xs uppercase tracking-widest text-green-300 shadow-black drop-shadow-md">
+                         <span className="text-5xl drop-shadow">→</span>
+                         <span className="text-2xl uppercase tracking-widest text-green-300 shadow-black drop-shadow-md">
                             {gameState.level === 1 ? 'Nice' : 'Load'}
                          </span>
                      </div>
@@ -430,13 +493,13 @@ export default function App() {
                     transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
                     className="mb-8 inline-block bg-white/10 p-4 rounded-full backdrop-blur"
                   >
-                      <RefreshCw className="w-16 h-16 text-white" />
+                      <RefreshCw className="w-20 h-20 text-white" />
                   </motion.div>
-                  <h2 className="text-3xl font-bold mb-2 font-serif text-yellow-300">
-                     {gameState.level === 1 ? "Checking the List..." : "Double checking gifts..."}
+                  <h2 className="text-6xl font-bold mb-4 font-christmas text-yellow-300">
+                     {gameState.level === 1 ? "Checking..." : "Inspecting..."}
                   </h2>
-                  <p className="text-slate-300">
-                     {gameState.level === 1 ? "Making sure you checked it twice." : "Santa is preparing for takeoff."}
+                  <p className="text-slate-300 text-3xl font-christmas">
+                     {gameState.level === 1 ? "Making a list." : "Checking it twice."}
                   </p>
               </motion.div>
           )}

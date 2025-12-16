@@ -79,8 +79,8 @@ export const ScoreScreen: React.FC<ScoreScreenProps> = ({ gameState, onRestart }
 
         {/* Header */}
         <div className="border-b-2 border-slate-800 pb-4 mb-4 border-dashed">
-            <div className="uppercase tracking-[0.3em] text-xs font-bold text-slate-500 mb-1">North Pole HR</div>
-            <h2 className="text-3xl font-black text-slate-800 font-serif">Performance Review</h2>
+            <div className="uppercase tracking-[0.3em] text-sm font-bold text-slate-500 mb-1 font-sans">North Pole HR</div>
+            <h2 className="text-5xl font-bold text-slate-800 font-christmas">Performance Review</h2>
         </div>
 
         {/* Dynamic Stamp Animation */}
@@ -88,53 +88,52 @@ export const ScoreScreen: React.FC<ScoreScreenProps> = ({ gameState, onRestart }
             initial={{ scale: 3, opacity: 0, rotate: -20 }}
             animate={{ scale: 1, opacity: 0.8, rotate: -12 }}
             transition={{ delay: 0.5, type: "spring", bounce: 0.5 }}
-            className={`absolute top-16 right-4 border-4 ${stampColor} px-4 py-2 rounded-lg font-black text-4xl uppercase tracking-widest opacity-80 rotate-[-12deg] z-20 mix-blend-multiply mask-image-grunge`}
+            className={`absolute top-16 right-4 border-4 ${stampColor} px-4 py-2 rounded-lg font-black text-5xl uppercase tracking-widest opacity-80 rotate-[-12deg] z-20 mix-blend-multiply mask-image-grunge font-sans`}
         >
             {stamp}
         </motion.div>
 
         <div>
-          <h3 className="text-xl font-bold text-slate-700 uppercase">{title}</h3>
-          <p className="text-slate-600 text-sm mt-1 italic font-serif">"{message}"</p>
+          <h3 className="text-4xl font-bold text-slate-700 font-christmas">{title}</h3>
+          <p className="text-slate-600 text-xl mt-1 italic font-sans">"{message}"</p>
         </div>
 
         {/* Score Circle */}
         <div className="flex justify-center py-2">
             <div className="relative">
-                <svg className="w-24 h-24 transform -rotate-90">
-                    <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-slate-200" />
+                <svg className="w-32 h-32 transform -rotate-90">
+                    <circle cx="64" cy="64" r="56" stroke="currentColor" strokeWidth="10" fill="transparent" className="text-slate-200" />
                     <motion.circle 
-                        cx="48" cy="48" r="40" 
+                        cx="64" cy="64" r="56" 
                         stroke="currentColor" 
-                        strokeWidth="8" 
+                        strokeWidth="10" 
                         fill="transparent" 
                         className={percentage >= 50 ? "text-green-500" : "text-red-500"}
-                        strokeDasharray="251.2"
-                        initial={{ strokeDashoffset: 251.2 }}
-                        animate={{ strokeDashoffset: 251.2 - (percentage / 100) * 251.2 }}
+                        strokeDasharray="351.8"
+                        initial={{ strokeDashoffset: 351.8 }}
+                        animate={{ strokeDashoffset: 351.8 - (percentage / 100) * 351.8 }}
                         transition={{ duration: 1, delay: 0.8 }}
                     />
                 </svg>
-                <div className="absolute inset-0 flex items-center justify-center text-xl font-bold text-slate-700">
+                <div className="absolute inset-0 flex items-center justify-center text-4xl font-bold text-slate-700 font-christmas">
                     {percentage}%
                 </div>
             </div>
         </div>
 
-        {/* Detailed List (Only show last 5 actions to save space, or simplify) */}
-        <div className="max-h-48 overflow-y-auto space-y-2 text-left bg-slate-50 p-3 rounded border border-slate-200 text-sm shadow-inner">
+        {/* Detailed List */}
+        <div className="max-h-48 overflow-y-auto space-y-2 text-left bg-slate-50 p-3 rounded border border-slate-200 text-sm shadow-inner font-sans">
             {gameState.history.map((item, idx) => {
                 const correct = item.scenario.verdict === item.choice; // For Level 1
-                // For Level 2, verdict is 'Load' or 'Reject' which is stored in scenario.verdict
                 return (
                     <div key={idx} className="flex items-center justify-between border-b border-slate-100 last:border-0 pb-1 last:pb-0">
-                        <span className="truncate pr-2 text-slate-600 font-medium w-3/4">
+                        <span className="truncate pr-2 text-slate-600 font-medium w-3/4 text-base">
                             {item.scenario.text}
                         </span>
                         {correct ? (
-                            <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />
+                            <CheckCircle className="w-5 h-5 text-green-500 shrink-0" />
                         ) : (
-                            <XCircle className="w-4 h-4 text-red-500 shrink-0" />
+                            <XCircle className="w-5 h-5 text-red-500 shrink-0" />
                         )}
                     </div>
                 )
@@ -146,9 +145,9 @@ export const ScoreScreen: React.FC<ScoreScreenProps> = ({ gameState, onRestart }
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={onRestart}
-          className="w-full bg-slate-800 text-white font-bold py-4 rounded shadow-lg hover:bg-slate-700 transition flex items-center justify-center space-x-2 mt-4"
+          className="w-full bg-slate-800 text-white font-bold py-4 rounded shadow-lg hover:bg-slate-700 transition flex items-center justify-center space-x-2 mt-4 font-christmas text-2xl"
         >
-          <RefreshCw className="w-5 h-5" />
+          <RefreshCw className="w-6 h-6" />
           <span>Sort Next Batch</span>
         </motion.button>
       </motion.div>
