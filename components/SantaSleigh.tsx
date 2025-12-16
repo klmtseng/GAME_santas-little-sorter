@@ -11,8 +11,43 @@ export const SantaSleigh: React.FC = () => {
         initial={{ opacity: 0, scale: 0.8, y: 50 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute top-1/4 w-48 h-48 md:w-80 md:h-80 bg-yellow-100 rounded-full shadow-[0_0_80px_rgba(253,224,71,0.6)] z-0"
-      />
+        className="absolute top-[10%] md:top-[15%] z-0"
+      >
+        <svg 
+            width="400" 
+            height="400" 
+            viewBox="0 0 200 200" 
+            className="w-64 h-64 md:w-96 md:h-96 drop-shadow-[0_0_60px_rgba(253,224,71,0.6)]"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <defs>
+                <radialGradient id="moonGradient" cx="40%" cy="40%" r="60%" fx="30%" fy="30%">
+                    <stop offset="0%" stopColor="#fffbeb" /> {/* warm white */}
+                    <stop offset="80%" stopColor="#fde047" /> {/* yellow-300 */}
+                    <stop offset="100%" stopColor="#facc15" /> {/* yellow-400 */}
+                </radialGradient>
+            </defs>
+            
+            {/* Main Body */}
+            <circle cx="100" cy="100" r="95" fill="url(#moonGradient)" />
+            
+            {/* Craters */}
+            <g fill="#d97706" fillOpacity="0.15">
+                <circle cx="50" cy="70" r="18" />
+                <circle cx="140" cy="110" r="24" />
+                <circle cx="95" cy="145" r="14" />
+                <circle cx="155" cy="65" r="9" />
+                <circle cx="35" cy="115" r="6" />
+                <circle cx="115" cy="35" r="11" />
+                <circle cx="75" cy="170" r="7" />
+                <circle cx="165" cy="150" r="15" />
+                <circle cx="130" cy="170" r="5" />
+            </g>
+            
+            {/* Inner Highlight for 3D effect */}
+            <circle cx="100" cy="100" r="95" fill="url(#moonGradient)" opacity="0.1" />
+        </svg>
+      </motion.div>
 
       {/* Clouds */}
       <motion.div 
