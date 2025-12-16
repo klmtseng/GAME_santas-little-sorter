@@ -36,7 +36,7 @@ export const SantaSleigh: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 3 }}
-        className="absolute bottom-20 text-white font-bold text-3xl font-serif tracking-widest text-shadow-glow"
+        className="absolute bottom-20 text-white font-bold text-5xl font-christmas tracking-widest text-shadow-glow"
       >
         Loading the Sleigh...
       </motion.div>
