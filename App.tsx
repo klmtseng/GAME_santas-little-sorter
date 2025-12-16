@@ -471,22 +471,6 @@ export default function App() {
                         )}
                     </AnimatePresence>
                  </div>
-
-                 {/* Controls Hint */}
-                 <div className="absolute bottom-10 flex justify-between w-full px-12 text-white font-bold opacity-70 pointer-events-none font-christmas">
-                     <div className="flex flex-col items-center animate-bounce-left">
-                         <span className="text-5xl drop-shadow">←</span>
-                         <span className="text-2xl uppercase tracking-widest text-red-300 shadow-black drop-shadow-md">
-                            {gameState.level === 1 ? 'Naughty' : 'Reject'}
-                         </span>
-                     </div>
-                     <div className="flex flex-col items-center animate-bounce-right">
-                         <span className="text-5xl drop-shadow">→</span>
-                         <span className="text-2xl uppercase tracking-widest text-green-300 shadow-black drop-shadow-md">
-                            {gameState.level === 1 ? 'Nice' : 'Load'}
-                         </span>
-                     </div>
-                 </div>
              </div>
           )}
 
