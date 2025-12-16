@@ -10,9 +10,6 @@ const create = (text: string, verdict: 'Nice' | 'Naughty', reason: string, illus
   illustration
 });
 
-// CHANGE THIS URL TO YOUR OWN IMAGE
-export const ELF_IMAGE_URL = "./elf.png";
-
 export const TOTAL_ROUNDS = 10;
 
 export const SCENARIOS: Scenario[] = [
