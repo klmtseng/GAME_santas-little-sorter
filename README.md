@@ -24,19 +24,6 @@ You are an elf who works for Santa Claus! Help decide who's Naughty or Nice in t
 - **Lucide React** (Icons)
 - **Tailwind CSS** (Styling)
 
-## 🚀 How to Run
-This project uses modern ES Modules and does not require a complex build step. You simply need to serve the files.
-
-**Using Python:**
-```bash
-python3 -m http.server
-# Open http://localhost:8000 in your browser
-```
-
-**Using Node.js (serve):**
-```bash
-npx serve .
-```
 
 ## 📸 Assets
 The project expects an `elf.png` file in the root directory to display the elf character.
