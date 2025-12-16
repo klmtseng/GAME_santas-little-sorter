@@ -1,4 +1,5 @@
-export type Verdict = 'Nice' | 'Naughty';
+
+export type Verdict = 'Nice' | 'Naughty' | 'Load' | 'Reject';
 
 export interface Scenario {
   id: number;
@@ -9,8 +10,10 @@ export interface Scenario {
 }
 
 export interface GameState {
-  status: 'intro' | 'playing' | 'checking' | 'results';
+  status: 'intro' | 'playing' | 'checking' | 'transition' | 'results';
+  level: 1 | 2;
   score: number;
+  maxScore: number;
   currentRound: number;
   history: { scenario: Scenario; choice: Verdict }[];
 }
