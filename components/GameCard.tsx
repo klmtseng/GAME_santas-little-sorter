@@ -32,6 +32,10 @@ export const GameCard: React.FC<GameCardProps> = ({ scenario, onSwipe, level }) 
   const rightLabel = level === 1 ? "NICE" : "LOAD";
   const leftColor = level === 1 ? "bg-red-500" : "bg-slate-700";
   const rightColor = level === 1 ? "bg-green-500" : "bg-yellow-500";
+  
+  // Text colors for footer (darker for visibility on white card)
+  const leftTextColor = level === 1 ? "text-red-400" : "text-slate-400";
+  const rightTextColor = level === 1 ? "text-green-500" : "text-yellow-600";
 
   return (
     <motion.div
@@ -74,7 +78,7 @@ export const GameCard: React.FC<GameCardProps> = ({ scenario, onSwipe, level }) 
         </div>
 
         {/* Text Content */}
-        <div className="text-center space-y-2 h-40 flex flex-col justify-start">
+        <div className="text-center space-y-2 h-40 flex flex-col justify-start w-full">
             {level === 1 ? (
                 <h3 className="text-3xl md:text-4xl font-bold text-gray-800 leading-none font-christmas">{scenario.text}</h3>
             ) : (
@@ -86,11 +90,21 @@ export const GameCard: React.FC<GameCardProps> = ({ scenario, onSwipe, level }) 
             )}
         </div>
 
-        {/* Footer Hint */}
-        <div className="mt-auto pt-4 border-t border-slate-100 w-full text-center">
-            <p className="text-sm text-gray-400 uppercase font-bold tracking-widest font-christmas">
-                {level === 1 ? 'Swipe to decide' : 'Swipe Right to Load'}
+        {/* Footer Hint - Locations Adjusted to Bottom Corners */}
+        <div className="mt-auto pt-4 border-t border-slate-100 w-full flex justify-between items-end relative">
+            <div className={`flex flex-col items-center ${leftTextColor} font-christmas font-bold opacity-90 transition-transform hover:scale-110`}>
+                <span className="text-3xl leading-none mb-1">←</span>
+                <span className="text-xl tracking-wider">{leftLabel}</span>
+            </div>
+            
+            <p className="absolute left-1/2 transform -translate-x-1/2 bottom-2 text-[10px] text-gray-300 uppercase font-bold tracking-widest font-sans">
+                SWIPE TO DECIDE
             </p>
+
+            <div className={`flex flex-col items-center ${rightTextColor} font-christmas font-bold opacity-90 transition-transform hover:scale-110`}>
+                <span className="text-3xl leading-none mb-1">→</span>
+                <span className="text-xl tracking-wider">{rightLabel}</span>
+            </div>
         </div>
     </motion.div>
   );
