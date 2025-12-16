@@ -14,10 +14,11 @@ import { GameState, Scenario, Verdict } from './types';
 // Audio URLs
 const BGM_URL = "https://actions.google.com/sounds/v1/holidays/jingle_bells.ogg";
 const SFX_NICE = "https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg"; 
-const SFX_NAUGHTY = "https://actions.google.com/sounds/v1/cartoon/clown_horn.ogg";
+const SFX_NAUGHTY = "https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"; // Changed to wooden bonk
 const SFX_WIN = "https://actions.google.com/sounds/v1/crowds/battle_crowd_celebrate_stutter.ogg";
 const SFX_LOSE = "https://actions.google.com/sounds/v1/cartoon/slide_whistle.ogg";
 const SFX_WOOSH = "https://actions.google.com/sounds/v1/foley/whoosh.ogg";
+const SFX_SLEIGH = "https://actions.google.com/sounds/v1/transportation/sleigh_bells.ogg"; 
 
 export default function App() {
   const [deck, setDeck] = useState<Scenario[]>([]);
@@ -41,6 +42,7 @@ export default function App() {
   const winSfxRef = useRef<HTMLAudioElement | null>(null);
   const loseSfxRef = useRef<HTMLAudioElement | null>(null);
   const wooshSfxRef = useRef<HTMLAudioElement | null>(null);
+  const sleighSfxRef = useRef<HTMLAudioElement | null>(null);
 
   // Initialize Audio
   useEffect(() => {
@@ -52,7 +54,7 @@ export default function App() {
     niceSfxRef.current.volume = 0.5;
     
     naughtySfxRef.current = new Audio(SFX_NAUGHTY);
-    naughtySfxRef.current.volume = 0.4;
+    naughtySfxRef.current.volume = 0.6; // Increased volume slightly for the bonk
 
     winSfxRef.current = new Audio(SFX_WIN);
     winSfxRef.current.volume = 0.6;
@@ -61,6 +63,9 @@ export default function App() {
     loseSfxRef.current.volume = 0.5;
 
     wooshSfxRef.current = new Audio(SFX_WOOSH);
+    
+    sleighSfxRef.current = new Audio(SFX_SLEIGH);
+    sleighSfxRef.current.volume = 0.7;
 
     return () => {
       bgmRef.current?.pause();
@@ -199,8 +204,14 @@ export default function App() {
                 const passRate = newScore / TOTAL_ROUNDS;
                 if (passRate >= 0.5) {
                     setGameState(g => ({ ...g, status: 'transition', score: newScore, history: newHistory }));
-                    // Trigger Transition Animation Timer
-                    if (!isMuted) wooshSfxRef.current?.play().catch(() => {});
+                    // Trigger Transition Animation
+                    if (!isMuted) {
+                        wooshSfxRef.current?.play().catch(() => {});
+                        // Delay bells to match visual entrance (0.5s delay in SantaSleigh.tsx)
+                        setTimeout(() => {
+                             sleighSfxRef.current?.play().catch(() => {});
+                        }, 500);
+                    }
                     setTimeout(() => startLevel2(), 4500); // Wait for Santa Animation
                 } else {
                     setGameState(g => ({ ...g, status: 'results', score: newScore, history: newHistory }));

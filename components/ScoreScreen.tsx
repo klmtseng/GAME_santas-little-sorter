@@ -98,27 +98,16 @@ export const ScoreScreen: React.FC<ScoreScreenProps> = ({ gameState, onRestart }
           <p className="text-slate-600 text-xl mt-1 italic font-sans">"{message}"</p>
         </div>
 
-        {/* Score Circle */}
-        <div className="flex justify-center py-2">
-            <div className="relative">
-                <svg className="w-32 h-32 transform -rotate-90">
-                    <circle cx="64" cy="64" r="56" stroke="currentColor" strokeWidth="10" fill="transparent" className="text-slate-200" />
-                    <motion.circle 
-                        cx="64" cy="64" r="56" 
-                        stroke="currentColor" 
-                        strokeWidth="10" 
-                        fill="transparent" 
-                        className={percentage >= 50 ? "text-green-500" : "text-red-500"}
-                        strokeDasharray="351.8"
-                        initial={{ strokeDashoffset: 351.8 }}
-                        animate={{ strokeDashoffset: 351.8 - (percentage / 100) * 351.8 }}
-                        transition={{ duration: 1, delay: 0.8 }}
-                    />
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center text-4xl font-bold text-slate-700 font-christmas">
-                    {percentage}%
-                </div>
-            </div>
+        {/* Score Display (No Circle) */}
+        <div className="flex justify-center py-4">
+            <motion.div 
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 200, delay: 0.8 }}
+                className={`text-8xl font-black font-christmas ${percentage >= 50 ? "text-green-600" : "text-red-600"} drop-shadow-sm`}
+            >
+                {percentage}%
+            </motion.div>
         </div>
 
         {/* Detailed List */}
